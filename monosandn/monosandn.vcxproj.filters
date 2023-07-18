@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="monosandn.cpp" />
+    <ClCompile Include="..\..\..\devbinlib\glad\Release\src\glad_release.c">
+      <Filter>third_party\glad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\devbinlib\glad\Debug\src\glad_debug.c">
+      <Filter>third_party\glad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ProjectsComm\imgui\imgui.cpp">
+      <Filter>third_party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ProjectsComm\imgui\imgui_demo.cpp">
+      <Filter>third_party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ProjectsComm\imgui\imgui_draw.cpp">
+      <Filter>third_party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ProjectsComm\imgui\imgui_tables.cpp">
+      <Filter>third_party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ProjectsComm\imgui\imgui_widgets.cpp">
+      <Filter>third_party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ProjectsComm\imgui\backends\imgui_impl_glfw.cpp">
+      <Filter>third_party\imgui\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ProjectsComm\imgui\backends\imgui_impl_opengl3.cpp">
+      <Filter>third_party\imgui\platform</Filter>
+    </ClCompile>
+    <ClCompile Include="platform_win_glfw.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="third_party">
+      <UniqueIdentifier>{25fd8189-d325-4c76-a629-dcca4264f2f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_party\glad">
+      <UniqueIdentifier>{9f569c96-d3b0-4508-bc10-2f00afbdc7ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_party\imgui">
+      <UniqueIdentifier>{29f44a33-6cc1-4436-8d30-57f2a01eb711}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_party\imgui\platform">
+      <UniqueIdentifier>{1f527fa7-ef27-47bb-b3b3-2b06e8e645fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform">
+      <UniqueIdentifier>{daa3d3db-ab6d-419f-a9b6-143ce48264e2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="spec_imgui.h">
+      <Filter>third_party\imgui\platform</Filter>
+    </ClInclude>
+    <ClInclude Include="platform.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="platform_win_glfw.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h" />
+  </ItemGroup>
+</Project>
