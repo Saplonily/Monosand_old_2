@@ -150,15 +150,23 @@
     <ClCompile Include="..\..\..\ProjectsComm\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\..\..\ProjectsComm\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\..\..\ProjectsComm\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="gl_texture2d.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="monosandn.cpp" />
     <ClCompile Include="platform_win_glfw.cpp" />
+    <ClCompile Include="stb_image_impl.cpp" />
+    <ClCompile Include="texture2d.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="err_macros.h" />
+    <ClInclude Include="gl_texture2d.h" />
+    <ClInclude Include="gl_texture_enums.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="platform.h" />
     <ClInclude Include="platform_win_glfw.h" />
     <ClInclude Include="spec_imgui.h" />
+    <ClInclude Include="texture2d.h" />
+    <ClInclude Include="texture_enums.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

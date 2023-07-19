@@ -33,6 +33,15 @@
       <Filter>platform</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="texture2d.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="gl_texture2d.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image_impl.cpp">
+      <Filter>third_party</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="third_party">
@@ -50,6 +59,9 @@
     <Filter Include="platform">
       <UniqueIdentifier>{daa3d3db-ab6d-419f-a9b6-143ce48264e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="graphics">
+      <UniqueIdentifier>{1cfcaa4a-c495-4d5f-80d0-2fcf7c8e97af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="spec_imgui.h">
@@ -62,5 +74,20 @@
       <Filter>platform</Filter>
     </ClInclude>
     <ClInclude Include="main.h" />
+    <ClInclude Include="texture2d.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="gl_texture2d.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="texture_enums.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="gl_texture_enums.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="err_macros.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
