@@ -7,11 +7,11 @@
 class Main final
 {
 private:
-	platform* m_platform = nullptr;
+    platform* m_platform = nullptr;
 public:
-	void init(platform* platform);
-	void run();
-	void tick();
+    void init(platform* platform);
+    void run();
+    void tick();
 };
 
 #endif
