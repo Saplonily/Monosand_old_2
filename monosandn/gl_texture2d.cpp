@@ -20,12 +20,17 @@ void gl_texture2d::gl_bind()
 gl_texture2d::gl_texture2d()
 {
     glGenTextures(1, &m_gl_id);
+    m_width = m_height = -1;
+    m_format = static_cast<tex_format>(-1);
 }
 
 void gl_texture2d::set_data(int32_t width, int32_t height, tex_format t_fmt, byte* data)
 {
     check_and_bind();
     glTexImage2D(GL_TEXTURE_2D, 0, to_gl_tex_format(t_fmt), width, height, 0, to_gl_tex_format(t_fmt), GL_UNSIGNED_BYTE, data);
+    m_width = width;
+    m_height = height;
+    m_format = t_fmt;
 }
 
 void gl_texture2d::set_wrap_s_t(tex_wrap_type s, tex_wrap_type t)
@@ -41,3 +46,9 @@ void gl_texture2d::set_filter(tex_filter_type min_f, tex_filter_type mag_f)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, to_gl_filter_type(min_f));
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, to_gl_filter_type(mag_f));
 }
+
+int32_t gl_texture2d::width() const { return m_width; }
+
+int32_t gl_texture2d::height() const { return m_height; }
+
+tex_format gl_texture2d::format() const { return m_format; }
