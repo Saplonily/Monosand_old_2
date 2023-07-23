@@ -5,14 +5,17 @@
 #include "platform.h"
 #include <functional>
 
-class Main final
+class main
 {
 private:
     platform* m_platform = nullptr;
+    void tick();
+
 public:
     void init(platform* platform);
-    void run(const std::function<void()>& between);
-    void tick(const std::function<void()>& between);
+    void run();
+    virtual inline void update() {};
+    virtual inline void render() {};
 };
 
 #endif

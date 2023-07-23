@@ -2,12 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="monosandn.cpp" />
-    <ClCompile Include="..\..\..\devbinlib\glad\Release\src\glad_release.c">
-      <Filter>third_party\glad</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\devbinlib\glad\Debug\src\glad_debug.c">
-      <Filter>third_party\glad</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\ProjectsComm\imgui\imgui.cpp">
       <Filter>third_party\imgui</Filter>
     </ClCompile>
@@ -44,6 +38,9 @@
     </ClCompile>
     <ClCompile Include="platform.cpp">
       <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\devbinlib\glad\src\glad.c">
+      <Filter>third_party\glad</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

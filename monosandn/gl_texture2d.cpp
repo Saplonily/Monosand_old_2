@@ -17,6 +17,11 @@ void gl_texture2d::gl_bind()
     glBindTexture(GL_TEXTURE_2D, m_gl_id);
 }
 
+gl_texture2d::~gl_texture2d()
+{
+    glDeleteTextures(1, &m_gl_id);
+}
+
 gl_texture2d::gl_texture2d()
 {
     glGenTextures(1, &m_gl_id);

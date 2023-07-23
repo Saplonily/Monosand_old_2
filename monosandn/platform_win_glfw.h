@@ -40,13 +40,17 @@ public:
     void pool_events() override;
     void swap_buffers() override;
     void sleep_us(int64_t us) override;
+    double get_time() const override;
 
-    void draw_texture(const texture2d& tex, const glm::mat3& trans) override;
-    void fill_color(float r, float g, float b) override;
+    // display api
 
     int32_t window_width() const override;
     int32_t window_height() const override;
-    double get_time() const override;
+
+    // render api
+    void draw_texture(const texture2d& tex, const glm::mat3& trans) override;
+    void fill_color(float r, float g, float b) override;
+
 };
 
 #endif

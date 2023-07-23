@@ -9,19 +9,24 @@
 class platform abstract
 {
 public:
+    virtual inline ~platform() {};
+
     virtual void init() = 0;
     virtual void* create_window(int32_t width, int32_t height, const std::wstring& title) = 0;
     virtual bool need_shutdown() const = 0;
     virtual void pool_events() = 0;
     virtual void swap_buffers() = 0;
     virtual void sleep_us(int64_t us) = 0;
+    virtual double get_time() const = 0;
 
+    // display api
+    virtual int32_t window_width() const = 0;
+    virtual int32_t window_height() const = 0;
+
+    // render api
     virtual void draw_texture(const texture2d& tex, const glm::mat3& trans) = 0;
     virtual void fill_color(float r, float g, float b) = 0;
 
-    virtual int32_t window_width() const = 0;
-    virtual int32_t window_height() const = 0;
-    virtual double get_time() const = 0;
 
     void draw_texture(const texture2d& tex, glm::vec2 pos, float rotation = 0.0f, glm::vec2 scale = glm::vec2{ 1.0f });
     // origin 是 by scale 的

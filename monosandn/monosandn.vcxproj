@@ -71,10 +71,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\ProjectsComm\stb;D:\devbinlib\glad\$(Configuration)\include;D:\devbinlib\glfw\Include;D:\devbinlib\glm-0.9.9.8\glm;D:\devbinlib\boost;D:\devbinlib\glad\$(Configuration)\src;D:\ProjectsComm\imgui</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\ProjectsComm\stb;D:\devbinlib\glad\include;D:\devbinlib\glfw\Include;D:\devbinlib\glm-0.9.9.8\glm;D:\devbinlib\boost;D:\devbinlib\glad\$(Configuration)\src;D:\ProjectsComm\imgui</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\ProjectsComm\stb;D:\devbinlib\glad\$(Configuration)\include;D:\devbinlib\glfw\Include;D:\devbinlib\glm-0.9.9.8\glm;D:\devbinlib\boost;D:\devbinlib\glad\$(Configuration)\src;D:\ProjectsComm\imgui</ExternalIncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);D:\ProjectsComm\stb;D:\devbinlib\glad\include;D:\devbinlib\glfw\Include;D:\devbinlib\glm-0.9.9.8\glm;D:\devbinlib\boost;D:\devbinlib\glad\$(Configuration)\src;D:\ProjectsComm\imgui</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -141,12 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\devbinlib\glad\Debug\src\glad_debug.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\..\devbinlib\glad\Release\src\glad_release.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="..\..\..\devbinlib\glad\src\glad.c" />
     <ClCompile Include="..\..\..\ProjectsComm\imgui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="..\..\..\ProjectsComm\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\..\..\ProjectsComm\imgui\imgui.cpp" />

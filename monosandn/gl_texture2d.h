@@ -13,6 +13,7 @@ private:
     uint32_t m_gl_id;
 public:
     gl_texture2d();
+    ~gl_texture2d() override;
 
     // gl spec
     void gl_bind();
