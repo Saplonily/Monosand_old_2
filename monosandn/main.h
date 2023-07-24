@@ -9,11 +9,11 @@ class main
 {
 private:
     platform* m_platform = nullptr;
-    void tick();
+    void tick(float delta);
 public:
     void init(platform* platform);
     void run();
-    virtual inline void update() {};
+    virtual inline void update(float delta) {};
     virtual inline void render() {};
 };
 

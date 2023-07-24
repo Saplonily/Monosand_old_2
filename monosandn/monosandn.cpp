@@ -11,9 +11,10 @@ class custom_main : public main
 private:
     std::unique_ptr<platform> pf;
     std::unique_ptr<texture2d> tex;
+    float num;
 public:
 
-    void init()
+    inline void init()
     {
         pf = std::make_unique<platform_win_glfw>();
         main::init(pf.get());
@@ -26,19 +27,21 @@ public:
         stbi_image_free(img);
     }
 
-    virtual inline void update() override
+    inline void update(float delta) override
     {
-
+        num += delta;
+        pf->pf_printfn("delta: %f", delta);
     };
 
-    virtual inline void render() override
+    inline void render() override
     {
         pf->fill_color(0.8f, 1.0f, 1.0f);
 
         glm::vec2 position(100.0f, 100.0f);
-        float rotation = static_cast<float>(pf->get_time());
 
-        pf->draw_texture(*tex, position, rotation, glm::vec2(0.5f, 0.5f));
+        for (int i = 0; i < (int)(num * 10); i++)
+            pf->draw_texture(*tex, position, num + i, glm::vec2(0.5f, 0.5f));
+
     };
 };
 
