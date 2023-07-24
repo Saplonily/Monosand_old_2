@@ -35,10 +35,10 @@ public:
     {
         pf->fill_color(0.8f, 1.0f, 1.0f);
 
-        glm::vec2 position(10.0f, 10.0f);
+        glm::vec2 position(100.0f, 100.0f);
         float rotation = static_cast<float>(pf->get_time());
 
-        pf->draw_texture_ext(*tex, position, rotation, glm::vec2(0.5f, 0.5f));
+        pf->draw_texture(*tex, position, rotation, glm::vec2(0.5f, 0.5f));
     };
 };
 
