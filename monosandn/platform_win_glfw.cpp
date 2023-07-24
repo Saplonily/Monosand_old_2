@@ -88,6 +88,7 @@ void platform_win_glfw::init()
     // windows init
     SetConsoleOutputCP(CP_UTF8);
     timeBeginPeriod(1);
+    QueryPerformanceFrequency((LARGE_INTEGER*)&ticks_per_seconds);
 
 #pragma region glfw&glad init
     // glfw init
@@ -209,6 +210,12 @@ void platform_win_glfw::sleep_us(int64_t us)
     DWORD t = static_cast<DWORD>(us / 1000.0);
     Sleep(us <= 1000 ? 1 : t);
 }
+
+int64_t platform_win_glfw::get_ticks_persecond() const { return ticks_per_seconds; }
+int64_t platform_win_glfw::get_abs_ticks() const { int64_t tick; QueryPerformanceCounter((LARGE_INTEGER*)&tick); return tick; }
+
+int32_t platform_win_glfw::get_expected_fps() const { return expected_fps; }
+void platform_win_glfw::set_expected_fps(int32_t fps) { expected_fps = fps; }
 
 void platform_win_glfw::set_window_resize_callback(const window_resize_callback_t cb) { window_resize_callback = cb; }
 void platform_win_glfw::pool_events() { glfwPollEvents(); }

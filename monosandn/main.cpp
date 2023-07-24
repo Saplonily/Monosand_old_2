@@ -11,10 +11,14 @@ void main::run()
 {
     while (!m_platform->need_shutdown())
     {
+        int64_t before = m_platform->get_abs_ticks();
         tick();
-
-        // for now, sleep a period
-        m_platform->sleep_us(static_cast<int64_t>(1000.0 * 1000.0 / 60.0));
+        int64_t after = m_platform->get_abs_ticks();
+        int64_t expected_ticks_per_frame = m_platform->get_ticks_persecond() / m_platform->get_expected_fps();
+        int64_t actual_ticks_this_frame = after - before;
+        int64_t ticks_to_sleep = expected_ticks_per_frame - actual_ticks_this_frame;
+        if (ticks_to_sleep > 0)
+            m_platform->sleep_us(ticks_to_sleep * 1000000 / m_platform->get_ticks_persecond());
     }
 }
 

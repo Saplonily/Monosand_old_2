@@ -25,6 +25,8 @@ class platform_win_glfw final : public platform
 private:
     GLFWwindow* glfw_win = nullptr;
     int32_t m_wWidth = -1, m_wHeight = -1;
+    int64_t ticks_per_seconds = -1;
+    int32_t expected_fps = 60;
     window_resize_callback_t window_resize_callback;
 
     struct {
@@ -45,7 +47,12 @@ public:
     void pool_events() override;
     void swap_buffers() override;
     void sleep_us(int64_t us) override;
+    int64_t get_ticks_persecond() const override;
+    int64_t get_abs_ticks() const override;
     double get_time() const override;
+
+    int32_t get_expected_fps() const override;
+    void set_expected_fps(int32_t fps) override;
 
     // display api
     int32_t window_width() const override;

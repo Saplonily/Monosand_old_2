@@ -23,7 +23,12 @@ public:
     virtual void pool_events() = 0;
     virtual void swap_buffers() = 0;
     virtual void sleep_us(int64_t us) = 0;
+    virtual int64_t get_ticks_persecond() const = 0;
+    virtual int64_t get_abs_ticks() const = 0;
     virtual double get_time() const = 0;
+
+    virtual int32_t get_expected_fps() const = 0;
+    virtual void set_expected_fps(int32_t fps) = 0;
 
     // display api
     virtual int32_t window_width() const = 0;

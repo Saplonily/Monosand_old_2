@@ -10,7 +10,6 @@ class main
 private:
     platform* m_platform = nullptr;
     void tick();
-
 public:
     void init(platform* platform);
     void run();
