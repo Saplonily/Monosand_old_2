@@ -1,17 +1,16 @@
 #include "gl_texture2d.h"
 #include "gl_texture_enums.h"
-#include <stb_image.h>
 #include <glad/glad.h>
 
 uint32_t gl_texture2d::s_cur_tex_id = -1;
 
-void gl_texture2d::check_and_bind()
+void gl_texture2d::check_and_bind() const
 {
     if (s_cur_tex_id != m_gl_id)
         gl_bind();
 }
 
-void gl_texture2d::gl_bind()
+void gl_texture2d::gl_bind() const
 {
     s_cur_tex_id = m_gl_id;
     glBindTexture(GL_TEXTURE_2D, m_gl_id);
@@ -53,7 +52,5 @@ void gl_texture2d::set_filter(tex_filter_type min_f, tex_filter_type mag_f)
 }
 
 int32_t gl_texture2d::width() const { return m_width; }
-
 int32_t gl_texture2d::height() const { return m_height; }
-
 tex_format gl_texture2d::format() const { return m_format; }

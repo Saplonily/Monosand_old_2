@@ -13,10 +13,10 @@ public:
     using window_resize_callback_t = std::function<void(int32_t width, int32_t height)>;
     static platform* singleton;
 
-    //-- 抽象方法
     platform();
     virtual ~platform();
 
+    // --抽象方法--
     virtual void init() = 0;
     virtual void create_window(int32_t width, int32_t height, const std::wstring& title) = 0;
     virtual bool need_shutdown() const = 0;
@@ -38,12 +38,14 @@ public:
     // render api
     virtual void draw_texture(const texture2d& tex, const glm::mat3& trans) = 0;
     virtual void fill_color(float r, float g, float b) = 0;
+    //virtual void set_render_target() = 0;
 
-    //-- 非抽象方法
+    // --非抽象方法--
 
     void pf_printfn(const char* fmt, ...);
 
     void draw_texture(const texture2d& tex, glm::vec2 pos);
+
     // origin 是 by scale 的
     void draw_texture(const texture2d& tex, glm::vec2 pos, float rotation, glm::vec2 origin = glm::vec2{ 0.0f }, glm::vec2 scale = glm::vec2{ 1.0f });
 };

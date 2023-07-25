@@ -1,22 +1,31 @@
 #include "platform_win_glfw.h"
+#include "gl_texture2d.h"
+
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <codecvt>
 #undef APIENTRY
 #include <Windows.h>
-
 #pragma comment(lib, "winmm")
+using pwg = platform_win_glfw;
+
+pwg* platform_win_glfw::get_singleton()
+{
+    platform* pf = pwg::singleton;
+    assert(dynamic_cast<platform_win_glfw*>(pf) != nullptr);
+    return (static_cast<platform_win_glfw*>(pf));
+}
 
 static void on_glfw_error(int code, const char* msg)
 {
-    platform* pf = platform::singleton;
+    pwg* pf = pwg::get_singleton();
     pf->pf_printfn("=== glfw error %d ===", code);
     pf->pf_printfn(msg);
 }
 
 static void on_opengl_error(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 {
-    platform* pf = platform::singleton;
+    pwg* pf = pwg::get_singleton();
 #define make_case(eq, c) case c: eq = #c;break;
     const char* sourceMsg;
     switch (source)
@@ -53,21 +62,31 @@ static void on_opengl_error(GLenum source, GLenum type, GLuint id, GLenum severi
     pf->pf_printfn("source: %s", sourceMsg);
     pf->pf_printfn("type: %s", typeMsg);
     pf->pf_printfn("severity: %s", severityMsg);
+    DebugBreak();
 #undef make_case
 }
 
-static void on_glfw_window_size(GLFWwindow* win, int32_t width, int32_t height)
+void platform_win_glfw::on_framebuffer_size(int32_t width, int32_t height)
 {
-    platform_win_glfw* pf = (platform_win_glfw*)platform::singleton;
-    pf->m_wWidth = width;
-    pf->m_wHeight = height;
     glViewport(0, 0, width, height);
     glm::mat3 trans{1.0f};
     trans = glm::translate(trans, glm::vec2(-1.0f, 1.0f));
     trans = glm::scale(trans, glm::vec2(2.0f / width, -2.0f / height));
-    glUniformMatrix3fv(pf->m_gl_rect.shd_view_matpos, 1, GL_FALSE, glm::value_ptr(trans));
+    glUniformMatrix3fv(m_gl_rect.shd_view_matpos, 1, GL_FALSE, glm::value_ptr(trans));
+}
+
+static void on_glfw_window_size(GLFWwindow* win, int32_t width, int32_t height)
+{
+    pwg* pf = pwg::get_singleton();
+    pf->m_wWidth = width;
+    pf->m_wHeight = height;
     if (pf->window_resize_callback)
         pf->window_resize_callback(width, height);
+}
+
+static void on_glfw_framebuffer_size(GLFWwindow* win, int32_t width, int32_t height)
+{
+    pwg::get_singleton()->on_framebuffer_size(width, height);
 }
 
 void platform_win_glfw::create_window(int32_t width, int32_t height, const std::wstring& title)
@@ -80,7 +99,7 @@ void platform_win_glfw::create_window(int32_t width, int32_t height, const std::
     glfwShowWindow(glfw_win);
     m_gl_rect.shd_view_matpos = glGetUniformLocation(m_gl_rect.shd_id, "view");
     m_gl_rect.shd_model_matpos = glGetUniformLocation(m_gl_rect.shd_id, "model");
-    on_glfw_window_size(glfw_win, width, height);
+    on_glfw_framebuffer_size(glfw_win, width, height);
 }
 
 void platform_win_glfw::init()
@@ -97,12 +116,14 @@ void platform_win_glfw::init()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+    glfwWindowHint(GLFW_CONTEXT_DEBUG, GLFW_TRUE);
     glfwSetErrorCallback(on_glfw_error);
     char c = '\0';
     glfw_win = glfwCreateWindow(1, 1, &c, nullptr, nullptr);
     glfwMakeContextCurrent(glfw_win);
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     glfwSetWindowSizeCallback(glfw_win, on_glfw_window_size);
+    glfwSetFramebufferSizeCallback(glfw_win, on_glfw_framebuffer_size);
 #pragma endregion
 
 #pragma region opengl init
@@ -187,6 +208,10 @@ void main()
 
 void platform_win_glfw::draw_texture(const texture2d& tex, const glm::mat3& trans)
 {
+    assert(dynamic_cast<const gl_texture2d*>(&tex) != nullptr);
+    const gl_texture2d* gl_tex = static_cast<const gl_texture2d*>(&tex);
+
+    gl_tex->check_and_bind();
     glUseProgram(m_gl_rect.shd_id);
     int width = tex.width();
     int height = tex.height();

@@ -6,7 +6,7 @@
 #include <stdint.h>
 
 // rgba or rgb formatted texture
-class texture2d abstract
+class texture2d
 {
 public:
     using byte = unsigned char;

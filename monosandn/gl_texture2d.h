@@ -6,6 +6,7 @@
 
 class gl_texture2d final : public texture2d
 {
+    friend class gl_render_target;
 private:
     static uint32_t s_cur_tex_id;
     int32_t m_width, m_height;
@@ -16,8 +17,8 @@ public:
     ~gl_texture2d() override;
 
     // gl spec
-    void gl_bind();
-    void check_and_bind();
+    void gl_bind() const; // hm... ok maybe it's const
+    void check_and_bind() const; // i think so for this...
 
     // base
     void set_wrap_s_t(tex_wrap_type s, tex_wrap_type t) override;

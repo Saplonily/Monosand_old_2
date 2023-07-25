@@ -40,6 +40,8 @@ private:
     } m_gl_rect;
 
     friend void on_glfw_window_size(GLFWwindow*, int32_t, int32_t);
+    friend void on_glfw_framebuffer_size(GLFWwindow*, int32_t, int32_t);
+    friend class custom_main;
 public:
     void create_window(int32_t width, int32_t height, const std::wstring& title) override;
     void init() override;
@@ -63,7 +65,9 @@ public:
     void draw_texture(const texture2d& tex, const glm::mat3& trans) override;
     void fill_color(float r, float g, float b) override;
 
+    void on_framebuffer_size(int32_t width, int32_t height);
 
+    static platform_win_glfw* get_singleton();
 };
 
 #undef vertices_data
