@@ -17,7 +17,7 @@
                            \
 0.0f, 1.0f, 0.0f, 1.0f,    \
 1.0f, 1.0f, 1.0f, 1.0f,    \
-1.0f, 0.0f, 1.0f, 0.0f     \
+1.0f, 0.0f, 1.0f, 0.0f,    \
 }
 
 class platform_win_glfw final : public platform
@@ -36,7 +36,8 @@ private:
 
         int32_t shd_model_matpos = -1;
         int32_t shd_view_matpos = -1;
-        float vertices[24] = vertices_data;
+        int32_t shd_color_pos = -1;
+        float vertices[4 * 6] = vertices_data;
     } m_gl_rect;
 
     friend void on_glfw_window_size(GLFWwindow*, int32_t, int32_t);

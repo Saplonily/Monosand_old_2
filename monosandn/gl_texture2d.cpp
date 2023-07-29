@@ -31,6 +31,12 @@ gl_texture2d::gl_texture2d()
 void gl_texture2d::set_data(int32_t width, int32_t height, tex_format t_fmt, byte* data)
 {
     check_and_bind();
+    int32_t widthSize = width * get_tex_format_pixel_size(t_fmt);
+    int32_t align_size = widthSize % 8 == 0 ? 8
+        : widthSize % 4 == 0 ? 4
+        : widthSize % 2 == 0 ? 2
+        : 1;
+    glPixelStorei(GL_UNPACK_ALIGNMENT, align_size);
     glTexImage2D(GL_TEXTURE_2D, 0, to_gl_tex_format(t_fmt), width, height, 0, to_gl_tex_format(t_fmt), GL_UNSIGNED_BYTE, data);
     m_width = width;
     m_height = height;

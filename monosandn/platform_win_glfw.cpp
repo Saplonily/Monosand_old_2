@@ -1,12 +1,20 @@
 #include "platform_win_glfw.h"
 #include "gl_texture2d.h"
 
+#include <fstream>
+
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <codecvt>
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#include <boost/filesystem.hpp>
+
 #undef APIENTRY
 #include <Windows.h>
+#include <ShlObj.h>
 #pragma comment(lib, "winmm")
+
 using pwg = platform_win_glfw;
 
 pwg* platform_win_glfw::get_singleton()
@@ -97,8 +105,6 @@ void platform_win_glfw::create_window(int32_t width, int32_t height, const std::
     glfwSetWindowSize(glfw_win, width, height);
     glfwSetWindowTitle(glfw_win, str.c_str());
     glfwShowWindow(glfw_win);
-    m_gl_rect.shd_view_matpos = glGetUniformLocation(m_gl_rect.shd_id, "view");
-    m_gl_rect.shd_model_matpos = glGetUniformLocation(m_gl_rect.shd_id, "model");
     on_glfw_framebuffer_size(glfw_win, width, height);
 }
 
@@ -108,6 +114,8 @@ void platform_win_glfw::init()
     SetConsoleOutputCP(CP_UTF8);
     timeBeginPeriod(1);
     QueryPerformanceFrequency((LARGE_INTEGER*)&ticks_per_seconds);
+
+
 
 #pragma region glfw&glad init
     // glfw init
@@ -127,7 +135,6 @@ void platform_win_glfw::init()
 #pragma endregion
 
 #pragma region opengl init
-    // gl init
     glDebugMessageCallbackARB(on_opengl_error, nullptr);
     // texture rect vao,vbo,shd etc.
     glGenVertexArrays(1, &m_gl_rect.vao_id);
@@ -142,17 +149,18 @@ void platform_win_glfw::init()
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
+
     const char* vshSource = R"(#version 330 core
 layout(location = 0) in vec2 v_pos;
 layout(location = 1) in vec2 v_tex_coord;
 
-uniform mat3 view;
-uniform mat3 model;
+uniform mat3 u_view;
+uniform mat3 u_model;
 out vec2 f_tex_coord;
 
 void main()
 {
-    vec3 v_pos2 = view * model * vec3(v_pos, 1.0);
+    vec3 v_pos2 = u_view * u_model * vec3(v_pos, 1.0);
     gl_Position = vec4(v_pos2, 1.0);
     f_tex_coord = v_tex_coord;
 })";
@@ -162,10 +170,11 @@ out vec4 FragColor;
 in vec2 f_tex_coord;
 
 uniform sampler2D tex;
+uniform vec4 color;
 
 void main()
 {
-    FragColor = texture(tex, f_tex_coord);
+    FragColor = texture(tex, f_tex_coord) * color;
 })";
 
     uint32_t vs = glCreateShader(GL_VERTEX_SHADER);
@@ -175,30 +184,52 @@ void main()
     glCompileShader(vs);
     glCompileShader(fs);
 
-    int  success;
-    char infoLog[512];
+    // TODO: prevent buffer from overflowing
+    const size_t buffer_size = 1024;
+    int success;
+    char infoLog[buffer_size];
     glGetShaderiv(vs, GL_COMPILE_STATUS, &success);
     if (!success)
     {
-        glGetShaderInfoLog(vs, 512, NULL, infoLog);
+        glGetShaderInfoLog(vs, buffer_size, NULL, infoLog);
         pf_printfn("=== vertex shader compilation failed ===\n%s", infoLog);
     }
     glGetShaderiv(fs, GL_COMPILE_STATUS, &success);
     if (!success)
     {
-        glGetShaderInfoLog(fs, 512, NULL, infoLog);
+        glGetShaderInfoLog(fs, buffer_size, NULL, infoLog);
         pf_printfn("=== fragment shader compilation failed ===\n%s", infoLog);
     }
 
-    uint32_t program = glCreateProgram();
-    glAttachShader(program, vs);
-    glAttachShader(program, fs);
-    glLinkProgram(program);
+    uint32_t pg = glCreateProgram();
+    glAttachShader(pg, vs);
+    glAttachShader(pg, fs);
+    glLinkProgram(pg);
     glDeleteShader(vs);
     glDeleteShader(fs);
 
-    glUseProgram(program);
-    m_gl_rect.shd_id = program;
+    glGetProgramiv(pg, GL_LINK_STATUS, &success);
+    if (!success)
+    {
+        glGetProgramInfoLog(pg, buffer_size, NULL, infoLog);
+        pf_printfn("=== shader program linking failed ===\n%s", infoLog);
+    }
+
+    glUseProgram(pg);
+    m_gl_rect.shd_id = pg;
+
+    m_gl_rect.shd_view_matpos = glGetUniformLocation(m_gl_rect.shd_id, "u_view");
+    m_gl_rect.shd_model_matpos = glGetUniformLocation(m_gl_rect.shd_id, "u_model");
+    m_gl_rect.shd_color_pos = glGetUniformLocation(m_gl_rect.shd_id, "color");
+    glUniform4f(m_gl_rect.shd_color_pos, 1.0f, 1.0f, 1.0f, 1.0f);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+#pragma endregion
+
+#pragma region default font init
+    
+
 #pragma endregion
 
 #pragma region ImGui init

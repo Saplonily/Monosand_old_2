@@ -25,6 +25,15 @@ void platform::pf_printfn(const char* fmt, ...)
     putchar('\n');
 }
 
+void platform::pf_wprintfn(const wchar_t* fmt, ...)
+{
+    va_list va;
+    va_start(va, fmt);
+    vwprintf(fmt, va);
+    va_end(va);
+    putchar('\n');
+}
+
 void platform::draw_texture(const texture2d& tex, glm::vec2 pos)
 {
     glm::mat3 trans{1.0f};

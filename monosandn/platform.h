@@ -43,6 +43,7 @@ public:
     // --非抽象方法--
 
     void pf_printfn(const char* fmt, ...);
+    void pf_wprintfn(const wchar_t* fmt, ...);
 
     void draw_texture(const texture2d& tex, glm::vec2 pos);
 

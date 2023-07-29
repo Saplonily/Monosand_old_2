@@ -91,6 +91,8 @@ constexpr inline uint32_t to_gl_tex_format(tex_format t)
         return GL_RGBA;
     case tex_format::rgb:
         return GL_RGB;
+    case tex_format::red:
+        return GL_RED;
     }
     fail_assert(invalid_enum_msg);
     return -1;
@@ -104,6 +106,8 @@ constexpr inline tex_format to_gl_tex_format(uint32_t t)
         return tex_format::rgba;
     case GL_RGB:
         return tex_format::rgb;
+    case GL_RED:
+        return tex_format::red;
     }
     fail_assert(invalid_enum_msg);
     return static_cast<tex_format>(-1);
