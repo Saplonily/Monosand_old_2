@@ -10,7 +10,10 @@ class texture2d
 {
 public:
     using byte = unsigned char;
-    virtual ~texture2d() {};
+    inline virtual ~texture2d() {};
+    inline texture2d() {};
+    texture2d(const texture2d&) = delete;
+    texture2d(texture2d&&) = delete;
 
     virtual void init();
     virtual void set_wrap_s_t(tex_wrap_type s, tex_wrap_type t) = 0;

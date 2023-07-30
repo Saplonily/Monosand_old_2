@@ -167,6 +167,7 @@
     <ClInclude Include="platform.h" />
     <ClInclude Include="platform_win_glfw.h" />
     <ClInclude Include="render_target.h" />
+    <ClInclude Include="shader.h" />
     <ClInclude Include="spec_imgui.h" />
     <ClInclude Include="texture2d.h" />
     <ClInclude Include="texture_enums.h" />

@@ -65,6 +65,8 @@ public:
     // render api
     void draw_texture(const texture2d& tex, const glm::mat3& trans) override;
     void fill_color(float r, float g, float b) override;
+    void set_color(float r, float g, float b, float a) override;
+    void reset_render_target() override;
 
     void on_framebuffer_size(int32_t width, int32_t height);
 

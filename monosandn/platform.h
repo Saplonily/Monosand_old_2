@@ -3,6 +3,7 @@
 #define H_PLATFORM
 
 #include "texture2d.h"
+#include "render_target.h"
 #include <glm/glm.hpp>
 #include <string>
 #include <functional>
@@ -38,7 +39,9 @@ public:
     // render api
     virtual void draw_texture(const texture2d& tex, const glm::mat3& trans) = 0;
     virtual void fill_color(float r, float g, float b) = 0;
-    //virtual void set_render_target() = 0;
+    virtual void set_color(float r = 1.0f, float g = 1.0f, float b = 1.0f, float a = 1.0f) = 0;
+    virtual void set_render_target(const render_target& target);
+    virtual void reset_render_target() = 0;
 
     // --非抽象方法--
 
@@ -46,7 +49,6 @@ public:
     void pf_wprintfn(const wchar_t* fmt, ...);
 
     void draw_texture(const texture2d& tex, glm::vec2 pos);
-
     // origin 是 by scale 的
     void draw_texture(const texture2d& tex, glm::vec2 pos, float rotation, glm::vec2 origin = glm::vec2{ 0.0f }, glm::vec2 scale = glm::vec2{ 1.0f });
 };

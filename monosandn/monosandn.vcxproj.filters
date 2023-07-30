@@ -98,6 +98,9 @@
     <ClInclude Include="gl_render_target.h">
       <Filter>graphics</Filter>
     </ClInclude>
+    <ClInclude Include="shader.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="pic.png" />

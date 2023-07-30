@@ -52,3 +52,8 @@ void platform::draw_texture(const texture2d& tex, glm::vec2 pos, float rotation,
     trans = glm::translate(trans, -origin_translate);
     draw_texture(tex, trans);
 }
+
+void platform::set_render_target(const render_target& rt)
+{
+    rt.make_current();
+}

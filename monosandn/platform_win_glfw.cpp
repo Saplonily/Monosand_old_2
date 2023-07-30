@@ -1,5 +1,6 @@
 #include "platform_win_glfw.h"
 #include "gl_texture2d.h"
+#include "gl_render_target.h"
 
 #include <fstream>
 
@@ -150,7 +151,8 @@ void platform_win_glfw::init()
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    const char* vshSource = R"(#version 330 core
+    const char* vshSource =
+        R"(#version 330 core
 layout(location = 0) in vec2 v_pos;
 layout(location = 1) in vec2 v_tex_coord;
 
@@ -164,7 +166,8 @@ void main()
     gl_Position = vec4(v_pos2, 1.0);
     f_tex_coord = v_tex_coord;
 })";
-    const char* fshSource = R"(#version 330 core
+    const char* fshSource =
+        R"(#version 330 core
 out vec4 FragColor;
 
 in vec2 f_tex_coord;
@@ -174,7 +177,15 @@ uniform vec4 color;
 
 void main()
 {
+/*for text*/
+    //vec4 mColor = texture(tex, f_tex_coord);
+    //mColor.argb = vec4(mColor.r,1.0,1.0,1.0);
+    //mColor *= color;
+    //FragColor = mColor;
+/*end*/
+/*for texture*/
     FragColor = texture(tex, f_tex_coord) * color;
+/*end*/
 })";
 
     uint32_t vs = glCreateShader(GL_VERTEX_SHADER);
@@ -228,7 +239,7 @@ void main()
 #pragma endregion
 
 #pragma region default font init
-    
+
 
 #pragma endregion
 
@@ -260,6 +271,14 @@ void platform_win_glfw::fill_color(float r, float g, float b)
     glClearColor(r, g, b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 }
+
+void platform_win_glfw::set_color(float r, float g, float b, float a)
+{
+    glUseProgram(m_gl_rect.shd_id);
+    glUniform4f(m_gl_rect.shd_color_pos, r, g, b, a);
+}
+
+void platform_win_glfw::reset_render_target() { gl_render_target::reset_target(); };
 
 void platform_win_glfw::sleep_us(int64_t us)
 {

@@ -31,19 +31,24 @@ gl_render_target::gl_render_target()
     m_tex = nullptr;
 }
 
-void gl_render_target::set_target(bool to_self)
+void gl_render_target::set_with(const gl_render_target* target)
 {
-    uint32_t id = to_self ? m_gl_id : 0;
+    platform_win_glfw* pf = platform_win_glfw::get_singleton();
+    uint32_t id = target == nullptr ? 0 : target->m_gl_id;
     if (s_cur_rt_id == id) return;
     s_cur_rt_id = id;
-    platform_win_glfw* pf = platform_win_glfw::get_singleton();
+
+    int32_t tw = target == nullptr ? pf->window_width() : target->texture()->width();
+    int32_t th = target == nullptr ? pf->window_height() : target->texture()->height();
+
     glBindFramebuffer(GL_FRAMEBUFFER, id);
-    if (id == 0)
-        pf->on_framebuffer_size(pf->window_width(), pf->window_height());
-    else
-        pf->on_framebuffer_size(m_tex->width(), m_tex->height());
+    pf->on_framebuffer_size(tw, th);
     assert(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
 }
+
+void gl_render_target::make_current() const { set_with(this); }
+
+void gl_render_target::reset_target() { set_with(nullptr); }
 
 void gl_render_target::clear(glm::vec4 color)
 {
@@ -53,4 +58,4 @@ void gl_render_target::clear(glm::vec4 color)
     glBindFramebuffer(GL_FRAMEBUFFER, s_cur_rt_id);
 }
 
-const texture2d* gl_render_target::texture() { return m_tex; }
+const texture2d* gl_render_target::texture() const { return m_tex; }

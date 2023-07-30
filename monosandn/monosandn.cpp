@@ -42,7 +42,6 @@ public:
         gt->init();
         gt->set_data(800, 600, tex_format::rgba, nullptr);
         rtg->set_attched_texture(gt);
-
         {
             namespace bfs = boost::filesystem;
             bfs::path font_file;
@@ -66,7 +65,6 @@ public:
             FT_Set_Pixel_Sizes(face, 0, 59);
             FT_Select_Charmap(face, FT_ENCODING_UNICODE);
             FT_Load_Char(face, L'好', FT_LOAD_RENDER);
-            printf("buffer size: %lld", size);
             delete[] buffer;
 
             charTex = std::make_unique<gl_texture2d>();
@@ -89,18 +87,21 @@ public:
     {
         glm::vec2 position(0.0f, 0.0f);
 
-        rtg->set_target(true);
+        pf->set_render_target(*rtg);
         {
-            rtg->clear(glm::vec4(sinf(num) / 2.0f + 0.5f, cosf(num) / 2.0f + 0.5f, 1.0f, 0.1f));
-            glm::vec2 position(0.0f, 0.0f);
-            pf->draw_texture(*tex, position + glm::vec2(0.0f, 0.0f), 0.0f, glm::vec2{0.0f}, glm::vec2(1.0f, 1.0f));
+            rtg->clear(glm::vec4(sinf(num) / 2.0f + 0.5f, cosf(num) / 2.0f + 0.5f, 1.0f, 0.2f));
+            pf->set_color(1.0f, 1.0f, 1.0f, 0.9f);
+            pf->draw_texture(*tex, position + glm::vec2(0.0f, 0.0f));
+            pf->set_color();
         }
-        rtg->set_target(false);
+        pf->reset_render_target();
 
         pf->fill_color(0.8f, 1.0f, 1.0f);
-        //pf->draw_texture(*rtg->texture(), glm::vec2(0.0f, rtg->texture()->height()), 0.0f, glm::vec2{0.0f}, glm::vec2(1.0f, -1.0f));
+        pf->draw_texture(*rtg->texture(), glm::vec2(0.0f, rtg->texture()->height()), 0.0f, glm::vec2{0.0f}, glm::vec2(1.0f, -1.0f));
 
-        pf->draw_texture(*charTex, glm::vec2(100.0f, 0.0f));
+        //pf->set_color(0.0f, 0.0f, 0.0f, 1.0f);
+        //pf->draw_texture(*charTex, glm::vec2(100.0f, 0.0f));
+        //pf->set_color();
     };
 };
 
